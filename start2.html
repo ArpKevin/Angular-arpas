@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="AngularStart">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/maincontroller.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="js/button.js"></script>
+    <title>Document</title>
+    <style>
+        body {
+            padding: 20px
+        }
+    </style>
+</head>
+
+<body>
+    <h1 style="text-align: center;">Autók</h1>
+    <hr>
+    <div ng-controller="MainController">
+
+        <h2>Válassz vmit</h2>
+        <b>Név:</b>
+        <select ng-model="valasztottMarka" ng-options="car.brand for car in cars" id="nevSelect"></select>
+
+        <b>Modell: </b>
+        <select ng-model="valasztottModell" onchange="$('#tehat').show();" id="modelSelect">
+            <option ng-repeat="model in valasztottMarka.models">{{model}}</option>
+        </select>
+
+        <input type="submit" value="Megjelenítés" id="gomb">
+
+        <div id="tehat" style="display: none;">
+
+        </div>
+<br>
+<br>
+<br>
+    </div>
+</body>
+
+</html>
