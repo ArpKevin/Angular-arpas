@@ -5,14 +5,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="js/app.js"></script>
     <script src="js/maincontroller.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="js/button.js"></script>
     <title>Document</title>
     <style>
         body {
             padding: 20px
+        }
+        .image-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .image-container img {
+            width: 49%;
+            height: auto;
+            margin: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .image-container img {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -22,24 +37,41 @@
     <hr>
     <div ng-controller="MainController">
 
-        <h2>Válassz vmit</h2>
+        <h2>Válassz valamit</h2>
         <b>Név:</b>
-        <select ng-model="valasztottMarka" ng-options="car.brand for car in cars" id="nevSelect"></select>
+        <select ng-model="valasztottMarka" ng-options="car.brand for car in cars" id="brandSelect"></select>
 
         <b>Modell: </b>
-        <select ng-model="valasztottModell" onchange="$('#tehat').show();" id="modelSelect">
+        <select ng-model="valasztottModell" id="modelSelect">
             <option ng-repeat="model in valasztottMarka.models">{{model}}</option>
         </select>
 
         <input type="submit" value="Megjelenítés" id="gomb">
 
-        <div id="tehat" style="display: none;">
-
+        <div id="wrapper" class="image-container">
+            
         </div>
-<br>
-<br>
-<br>
-    </div>
-</body>
 
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $button = $("#gomb");
+            let usedModels = [];
+
+            $button.on("click", function(event){
+                event.preventDefault();
+
+                $brand = angular.element($("#brandSelect")).scope().valasztottMarka.brand;
+                $model = $("#modelSelect").val();
+                
+                if (!usedModels.includes($model)) {
+                    $wrapper = $("#wrapper");
+                    $wrapper.append(`<img src="img/${$brand.toLowerCase()}-${$model.toLowerCase()}.png" alt="${$brand} ${$model}" title="${$brand} ${$model}">`);
+                    usedModels.push($model);
+                }       
+            });
+        });
+    </script>
+</body>
 </html>
